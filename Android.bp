@@ -8174,6 +8174,38 @@ cc_prebuilt_library_shared {
     soc_specific: true,
 }
 
+// Stock libhwdap.so dlopen()s this by the literal name "libqtigef.so" at
+// runtime (an older GEF entry point name); install libqtigefar.so's actual
+// bytes under that name too, since the two are ABI-compatible on this device.
+cc_prebuilt_library_shared {
+    name: "libqtigef",
+    stem: "libqtigef",
+    owner: "xiaomi",
+    check_elf_files: false,
+    strip: {
+        none: true,
+    },
+    target: {
+        android_arm64: {
+            srcs: [
+                "proprietary/vendor/lib64/libqtigefar.so",
+            ],
+            shared_libs: [
+                "liblog",
+                "libcutils",
+                "libar-pal",
+                "libc++",
+                "libc",
+                "libm",
+                "libdl",
+            ],
+        },
+    },
+    compile_multilib: "64",
+    prefer: true,
+    soc_specific: true,
+}
+
 cc_prebuilt_library_shared {
     name: "libqtikeymaster4",
     owner: "xiaomi",
